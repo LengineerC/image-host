@@ -7,3 +7,5 @@ export const CURRENT_DIR =
     : path.dirname(process.execPath);
 
 export const CONFIG_FILENAME: string = "config.json";
+
+export const UPLOADS_DIRNAME: string = "uploads";
