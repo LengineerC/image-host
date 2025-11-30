@@ -4,12 +4,11 @@ import cors from "cors";
 import morgan from "morgan";
 import { logger } from "./log/logger.ts";
 import {
-  CONFIG_FILENAME,
   CURRENT_DIR,
   UPLOADS_DIRNAME,
 } from "./utils/constants.ts";
-import ConfigManager from "./config/ConfigManager.ts";
 import router from "./routes/image.ts";
+import configManager from "./config/index.ts";
 
 const app = express();
 app.use(cors());
@@ -24,9 +23,6 @@ app.use(
   }),
 );
 
-const configPath = path.resolve(CURRENT_DIR, CONFIG_FILENAME);
-const configManager = new ConfigManager(configPath);
-configManager.readConfig();
 const config = configManager.getConfig();
 
 app.use("/uploads", express.static(path.resolve(CURRENT_DIR, UPLOADS_DIRNAME)));

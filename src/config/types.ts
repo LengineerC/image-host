@@ -1,3 +1,6 @@
 export interface Config {
-  serverPort: 3000;
+  serverPort: number;
+  fileSize: number;
+  baseUrl: string;
+  maxUploadCount: number;
 }

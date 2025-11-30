@@ -2,16 +2,28 @@ import { Config } from "./types";
 import fs from "fs";
 
 export default class ConfigManager {
+  private static instance: ConfigManager | null = null;
   private defaultConfig: Config;
   private configPath: string;
   private config: Config;
 
-  public constructor(configPath: string) {
+  private constructor(configPath: string) {
     this.configPath = configPath;
     this.defaultConfig = {
       serverPort: 3000,
+      fileSize: 5 * 1024 * 1024,
+      baseUrl: '',
+      maxUploadCount: 3,
     };
     this.config = this.defaultConfig;
+    this.readConfig();
+  }
+
+  public static getInstance(configPath: string): ConfigManager {
+    if (!ConfigManager.instance) {
+      ConfigManager.instance = new ConfigManager(configPath);
+    }
+    return ConfigManager.instance;
   }
 
   public getConfig(): Config {
