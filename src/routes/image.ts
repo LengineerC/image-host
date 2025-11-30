@@ -2,24 +2,16 @@ import express from "express";
 import { fail, ok } from "../utils/ApiResponse";
 import path from "path";
 import { CURRENT_DIR, UPLOADS_DIRNAME } from "../utils/constants";
-import upload from "../core/upload";
 import configManager from "../config";
 import scanDir from "../utils/scanDir";
 import fs from 'fs';
+import { authMiddleware } from "../middleware/auth";
+import { uploadMiddleware } from "../middleware/upload";
 
 const config = configManager.getConfig();
 const router = express.Router();
 
-router.post("/upload", (req, res, next) => {
-  upload.array('files')(req, res, (err: any) => {
-    if (err) {
-      return res.status(400).json(fail(err.message));
-    }
-
-    next();
-  })
-});
-router.post("/upload", (req, res) => {
+router.post("/upload", authMiddleware, uploadMiddleware, (req, res) => {
   const files = req.files as Express.Multer.File[];
 
   if (!files || files.length === 0) {
@@ -52,7 +44,7 @@ router.post("/upload", (req, res) => {
   return res.json(ok(results));
 });
 
-router.get('/images', (_, res) => {
+router.get('/images', authMiddleware, (_, res) => {
   try {
     const uploadRootDir = path.resolve(CURRENT_DIR, UPLOADS_DIRNAME);
     const images = scanDir(uploadRootDir);
@@ -63,7 +55,7 @@ router.get('/images', (_, res) => {
   }
 });
 
-router.delete('/images', (req, res) => {
+router.delete('/images', authMiddleware, (req, res) => {
   const { paths } = req.body;
 
   if (!Array.isArray(paths) || paths.length === 0) {

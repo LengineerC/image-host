@@ -3,4 +3,5 @@ export interface Config {
   fileSize: number;
   baseUrl: string;
   maxUploadCount: number;
+  token: string;
 }

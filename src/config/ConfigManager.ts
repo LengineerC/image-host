@@ -14,6 +14,7 @@ export default class ConfigManager {
       fileSize: 5 * 1024 * 1024,
       baseUrl: '',
       maxUploadCount: 3,
+      token: "91b4d142823f7d20c5f08df69122de43f35f057a988d9619f6d3138485c9a203", // 000000
     };
     this.config = this.defaultConfig;
     this.readConfig();
