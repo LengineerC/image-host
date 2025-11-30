@@ -2,13 +2,13 @@ import path from "path";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { logger } from "./log/logger.ts";
+import { logger } from "./log/logger";
 import {
   CURRENT_DIR,
   UPLOADS_DIRNAME,
-} from "./utils/constants.ts";
-import router from "./routes/image.ts";
-import configManager from "./config/index.ts";
+} from "./utils/constants";
+import router from "./routes/image";
+import configManager from "./config/index";
 
 const app = express();
 app.use(cors());

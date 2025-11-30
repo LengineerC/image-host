@@ -2,23 +2,49 @@
   "name": "image-host",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": "dist/server/app.js",
+  "pkg": {
+    "scripts": [
+      "dist/**/*"
+    ],
+    "targets": [
+      "node18-win-x64",
+      "node18-linux-x64"
+    ],
+    "outputPath": "release"
+  },
   "scripts": {
-    "start:server": "cross-env NODE_ENV=development tsx src/app.ts"
+    "start:server": "cross-env NODE_ENV=development tsx src/app.ts",
+    "build:server": "cross-env NODE_ENV=production webpack --config webpack/server.config.js",
+    "release": "cross-env NODE_ENV=production npm run build:server && pkg ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
     "@types/log4js": "^2.3.5",
     "@types/morgan": "^1.9.10",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.10.1",
+    "babel-loader": "^10.0.0",
     "cross-env": "^10.1.0",
+    "css-loader": "^7.1.2",
+    "html-loader": "^5.1.0",
+    "node-polyfill-webpack-plugin": "^4.1.0",
+    "style-loader": "^4.0.0",
+    "terser-webpack-plugin": "^5.3.14",
+    "text-encoding": "^0.7.0",
+    "ts-loader": "^9.5.4",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "webpack": "^5.103.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-merge": "^6.0.1"
   },
   "dependencies": {
     "cors": "^2.8.5",

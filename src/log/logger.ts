@@ -2,7 +2,7 @@ import log4js from "log4js";
 
 log4js.configure({
   appenders: {
-    console: { type: "console" },
+    stdout: { type: 'stdout' },
     file: {
       type: "file",
       filename: "logs/access.log",
@@ -11,7 +11,7 @@ log4js.configure({
     },
   },
   categories: {
-    default: { appenders: ["console", "file"], level: "info" },
+    default: { appenders: ["stdout", "file"], level: "info" },
   },
 });
 

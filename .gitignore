@@ -4,6 +4,7 @@ node_modules
 __test__
 test
 dist
+release
 logs
 config.json
 uploads
