@@ -44,12 +44,21 @@ router.post("/upload", authMiddleware, uploadMiddleware, (req, res) => {
   return res.json(ok(results));
 });
 
-router.get('/images', authMiddleware, (_, res) => {
+router.get('/images', authMiddleware, (req, res) => {
   try {
     const uploadRootDir = path.resolve(CURRENT_DIR, UPLOADS_DIRNAME);
-    const images = scanDir(uploadRootDir);
+    const protocol = req.protocol;
+    const host = req.get("host");
+    const baseUrl = config.baseUrl?.trim() || `${protocol}://${host}`;
 
-    res.json(ok(images));
+    const images = scanDir(uploadRootDir);
+    const result = images.map(img => {
+      const url = `${baseUrl}/uploads/${img.path}`;
+
+      return { ...img, url };
+    });
+
+    res.json(ok(result));
   } catch (err: any) {
     return res.status(500).json(fail(err.message));
   }
