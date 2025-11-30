@@ -14,9 +14,12 @@
     "outputPath": "release"
   },
   "scripts": {
-    "start:server": "cross-env NODE_ENV=development tsx src/app.ts",
+    "start:server": "cross-env NODE_ENV=development tsx src-node/app.ts",
+    "start:client": "cross-env NODE_ENV=development webpack serve --config webpack/client.config.dev.js",
     "build:server": "cross-env NODE_ENV=production webpack --config webpack/server.config.js",
-    "release": "cross-env NODE_ENV=production npm run build:server && pkg ."
+    "build:client": "cross-env NODE_ENV=production webpack --config webpack/client.config.prod.js",
+    "build": "cross-env NODE_ENV=production npm run build:client && npm run build:server",
+    "release": "cross-env NODE_ENV=production npm run build && pkg ."
   },
   "keywords": [],
   "author": "",
@@ -31,19 +34,29 @@
     "@types/morgan": "^1.9.10",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.10.1",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
     "babel-loader": "^10.0.0",
+    "buffer": "^6.0.3",
+    "clean-webpack-plugin": "^4.0.0",
     "cross-env": "^10.1.0",
+    "crypto-browserify": "^3.12.1",
     "css-loader": "^7.1.2",
     "html-loader": "^5.1.0",
+    "html-webpack-plugin": "^5.6.5",
     "node-polyfill-webpack-plugin": "^4.1.0",
+    "sass-loader": "^16.0.6",
+    "stream-browserify": "^3.0.0",
     "style-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.3.14",
     "text-encoding": "^0.7.0",
     "ts-loader": "^9.5.4",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
+    "util": "^0.12.5",
     "webpack": "^5.103.0",
     "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2",
     "webpack-merge": "^6.0.1"
   },
   "dependencies": {
@@ -52,6 +65,9 @@
     "log4js": "^6.9.1",
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sass": "^1.94.2",
     "uuid": "^13.0.0"
   }
 }

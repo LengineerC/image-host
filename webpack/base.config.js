@@ -1,26 +1,54 @@
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 /**
  * @type {webpack.Configuration}
  */
 const baseConfig = {
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
   },
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: 'ts-loader',
-      },
+      // ts-loader 规则由具体的客户端/服务器配置提供
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: 'babel-loader',
       },
-    ]
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader',
+            options: {
+              minimize: true,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(svg|png|webp|jpg|jpeg)$/,
+        type: 'asset/resource'
+      },
+    ],
   },
   optimization: {
     minimize: true,
@@ -38,7 +66,11 @@ const baseConfig = {
         extractComments: false,
       }),
     ],
-  }
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new NodePolyfillPlugin()
+  ],
 };
 
 module.exports = baseConfig;

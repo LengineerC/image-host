@@ -10,7 +10,7 @@ export default class ConfigManager {
   private constructor(configPath: string) {
     this.configPath = configPath;
     this.defaultConfig = {
-      serverPort: 3000,
+      serverPort: 7500,
       fileSize: 5 * 1024 * 1024,
       baseUrl: '',
       maxUploadCount: 3,

@@ -27,7 +27,7 @@ router.post("/upload", authMiddleware, uploadMiddleware, (req, res) => {
     const relativePath = path.relative(
       uploadRootDir,
       file.path,
-    );
+    ).replace(/\\/g, '/');
     const url = `${baseUrl}/uploads/${relativePath.replace(/\\/g, "/")}`;
 
     return {
