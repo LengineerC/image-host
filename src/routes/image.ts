@@ -65,6 +65,10 @@ router.get('/images', authMiddleware, (req, res) => {
 });
 
 router.delete('/images', authMiddleware, (req, res) => {
+  if (!req.body) {
+    return res.status(400).json(fail('request body is not exists'));
+  }
+
   const { paths } = req.body;
 
   if (!Array.isArray(paths) || paths.length === 0) {

@@ -17,7 +17,17 @@ app.use(
   morgan("combined", {
     stream: {
       write(msg) {
-        logger.info(msg.trim());
+        const logMsg = msg.trim();
+        const statusMatch = msg.match(/"\s+(\d+)\s+/);
+        if (statusMatch) {
+          const statusCode = parseInt(statusMatch[1]);
+
+          if (statusCode >= 500) logger.error(logMsg);
+          else if (statusCode >= 400) logger.warn(logMsg);
+          else logger.info(logMsg);
+        } else {
+          logger.info(logMsg);
+        }
       },
     },
   }),
