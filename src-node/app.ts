@@ -35,6 +35,15 @@ app.use(
 
 const config = configManager.getConfig();
 
+if (process.env.NODE_ENV !== "development") {
+  app.use(express.static(path.join(__dirname, '../client')));
+
+  app.get('/', (_, res) => {
+    const indexPage = path.join(__dirname, '../client/index.html');
+    res.sendFile(indexPage);
+  });
+}
+
 app.use("/uploads", express.static(path.resolve(CURRENT_DIR, UPLOADS_DIRNAME)));
 app.use("/api", router);
 
