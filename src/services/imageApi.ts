@@ -1,5 +1,5 @@
 import apiClient from './apiClient';
-import { ApiResponse, UploadResponseData, GetImagesResponseData, DeleteImageResponse } from '../types/api';
+import { ApiResponse, UploadResponseData, GetImagesResponseData, DeleteImageResponse, ConfigData } from '../types/api';
 
 export const imageApi = {
   upload: async (files: File[]): Promise<UploadResponseData[]> => {
@@ -27,5 +27,10 @@ export const imageApi = {
       data: { paths },
     });
     return response.data.data ?? { deleted: [] };
+  },
+
+  getConfig: async (): Promise<ConfigData> => {
+    const response = await apiClient.get<ApiResponse<ConfigData>>('/config');
+    return response.data.data as ConfigData;
   },
 };

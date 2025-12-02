@@ -10,6 +10,14 @@ interface ImageGridPops {
 const ImageGrid: React.FC<ImageGridPops> = ({images, onDelete, onRefresh}) => {
     const [selectedImages, setSelectedImages] = useState<Set<string>>(new Set());
 
+    const formatFileSize = (bytes: number): string => {
+        if (bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    };
+
     const toggleSelectImage = (path: string) => {
         const newSelectedImages = new Set(selectedImages);
         if (newSelectedImages.has(path)) {
@@ -132,6 +140,9 @@ const ImageGrid: React.FC<ImageGridPops> = ({images, onDelete, onRefresh}) => {
                             {image.filename}
                         </p>
                         <div className="image-meta">
+                            <span className="size">
+                                {formatFileSize(image.size)}
+                            </span>
                             <span className="date">
                                 {new Date(image.uploadTime).toLocaleDateString()}
                             </span>

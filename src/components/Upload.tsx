@@ -1,5 +1,5 @@
-import React,{useState,useRef} from 'react';
-import {imageApi} from '../api';
+import React,{useState,useRef,useEffect} from 'react';
+import {imageApi, ConfigData} from '../api';
 
 interface UploadProps {
     onUploadSuccess:() => void;
@@ -7,10 +7,45 @@ interface UploadProps {
 
 const Upload: React.FC<UploadProps> = ({onUploadSuccess}) => {
     const [uploading, setUploading] = useState(false);
+    const [config, setConfig] = useState<ConfigData | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        const fetchConfig = async () => {
+            try {
+                const configData = await imageApi.getConfig();
+                setConfig(configData);
+            } catch (error) {
+                console.error('Failed to fetch config:', error);
+            }
+        };
+        fetchConfig();
+    }, []);
+
+    const formatFileSize = (bytes: number): string => {
+        if (bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    };
 
     const handleFiles = async (files: File[]) => {
         if (files.length === 0) return;
+
+        if (config && files.length > config.maxUploadCount) {
+            alert(`最多只能上传 ${config.maxUploadCount} 个文件`);
+            return;
+        }
+
+        if (config) {
+            for (const file of files) {
+                if (file.size > config.fileSize) {
+                    alert(`文件 "${file.name}" 超过了大小限制（${formatFileSize(config.fileSize)}）`);
+                    return;
+                }
+            }
+        }
 
         setUploading(true);
         try {
@@ -67,7 +102,15 @@ const Upload: React.FC<UploadProps> = ({onUploadSuccess}) => {
                     <h3>
                         {uploading ? '正在上传...' : '拖拽文件到此处或点击上传'}
                     </h3>
-                    <p>支持 JPG、PNG、GIF、WebP 格式，单个文件不超过 10MB</p>
+                    <p>
+                        支持 JPG、PNG、GIF、WebP 格式
+                        {config && (
+                            <>
+                                ，单个文件不超过 {formatFileSize(config.fileSize)}
+                                ，最多上传 {config.maxUploadCount} 个文件
+                            </>
+                        )}
+                    </p>
                 </div>
 
                 {!uploading && (

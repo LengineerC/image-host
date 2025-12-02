@@ -27,3 +27,9 @@ export interface DeleteImageResponse {
   success: boolean;
   error?: string;
 }
+
+export interface ConfigData {
+  fileSize: number;
+  maxUploadCount: number;
+  token: string;
+}

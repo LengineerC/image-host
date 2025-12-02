@@ -98,4 +98,13 @@ router.delete('/images', authMiddleware, (req, res) => {
   }));
 });
 
+router.get('/config', authMiddleware, (req, res) => {
+  const configData = {
+    fileSize: config.fileSize,
+    maxUploadCount: config.maxUploadCount,
+    token: config.token,
+  };
+  return res.json(ok(configData));
+});
+
 export default router;
