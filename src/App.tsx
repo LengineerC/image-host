@@ -3,9 +3,13 @@ import {imageApi} from './api';
 import { GetImagesResponseData } from './api';
 import Upload from './components/Upload';
 import ImageGrid from './components/ImageGrid';
+import Login from './components/Login';
 import './styles/main.scss';
+import { useAuth,AuthProvider } from './contexts/AuthContext';
+
 
 const AppContent: React.FC = () => {
+  const {isAuthenticated} = useAuth();
   const [images,setImages] = useState<GetImagesResponseData[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -35,6 +39,9 @@ const AppContent: React.FC = () => {
     fetchImages();
   },[]);
 
+  if (!isAuthenticated) {
+    return <Login />;
+  }
 
   return (
     <div className="app-container">
@@ -94,7 +101,9 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <AppContent />
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

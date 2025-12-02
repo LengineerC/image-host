@@ -33,6 +33,11 @@ const ImageGrid: React.FC<ImageGridPops> = ({images, onDelete, onRefresh}) => {
     }
   };
 
+    const handleCopy = (url: string) =>{
+        navigator.clipboard.writeText(url);
+        alert('图片链接已复制到剪贴板');
+    }
+
     if (images.length === 0) {
         return (
             <div className="image-grid-container">
@@ -134,7 +139,10 @@ const ImageGrid: React.FC<ImageGridPops> = ({images, onDelete, onRefresh}) => {
                                 href={image.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleCopy(image.url);
+                                }}
                                 className="link"
                             >
                                 <span>复制链接</span>
