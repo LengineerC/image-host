@@ -54,6 +54,7 @@ const Upload: React.FC<UploadProps> = ({onUploadSuccess}) => {
                     multiple
                     accept="image/*"
                     onChange={handleFileChange}
+                    style={{display: 'none'}}
                 />
 
                 <div className="upload-icon">
