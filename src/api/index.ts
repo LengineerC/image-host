@@ -1,9 +1,8 @@
-// 导出类型
-export * from '../types/api';
+// 导出所有类型
+export * from './types';
 
-// 导出服务
-export { imageApi } from '../services/imageApi';
+// 导出请求封装
+export { default as request } from './request';
 
-// 导出 api 实例
-export { createApiClient } from '../services/apiClient';
-export { default as apiClient } from '../services/apiClient';
+// 导出具体的 API 模块
+export { imageApi } from './imageApi';

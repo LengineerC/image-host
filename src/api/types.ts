@@ -33,3 +33,12 @@ export interface ConfigData {
   maxUploadCount: number;
   token: string;
 }
+
+export interface HttpError extends Error {
+  code?: number;
+  status?: number;
+  response?: {
+    status: number;
+    data: any;
+  };
+}
