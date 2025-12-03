@@ -1,0 +1,159 @@
+// 主应用布局样式
+.app-container {
+  min-height: 100vh;
+  background-color: #f9fafb;
+
+  .header {
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #e5e7eb;
+
+    .header-content {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .logo {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+
+          .logo-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+              width: 1.5rem;
+              height: 1.5rem;
+              color: white;
+            }
+          }
+
+          .logo-text {
+            h1 {
+              font-size: 1.5rem;
+              font-weight: 700;
+              color: #1f2937;
+            }
+
+            p {
+              font-size: 0.875rem;
+              color: #6b7280;
+            }
+          }
+        }
+
+        .header-actions {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+
+          .token-input-group {
+            .token-input {
+              padding: 0.5rem 0.75rem;
+              border: 1px solid #d1d5db;
+              border-radius: 0.5rem;
+              font-size: 0.875rem;
+              color: #374151;
+              background: white;
+              width: 200px;
+              transition: all 0.2s;
+
+              &:focus {
+                outline: none;
+                border-color: #2563eb;
+                box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+              }
+
+              &::placeholder {
+                color: #9ca3af;
+              }
+            }
+          }
+
+          .counter {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #eff6ff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+
+            svg {
+              width: 1.25rem;
+              height: 1.25rem;
+              color: #2563eb;
+            }
+
+            span {
+              font-size: 0.875rem;
+              font-weight: 500;
+              color: #1d4ed8;
+            }
+          }
+
+          .button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            font-weight: 500;
+
+            svg {
+              width: 1.25rem;
+              height: 1.25rem;
+            }
+
+            &:hover {
+              background: #f9fafb;
+              border-color: #9ca3af;
+            }
+
+            &.refresh-button:hover svg {
+              animation: rotate 1s linear infinite;
+            }
+
+            &.logout-button {
+              &:hover {
+                background: #fef2f2;
+                border-color: #fecaca;
+                color: #dc2626;
+              }
+
+              svg {
+                transition: color 0.2s;
+              }
+
+              &:hover svg {
+                color: #dc2626;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .main-content {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+}
