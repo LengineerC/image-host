@@ -56,9 +56,7 @@ class Request {
 
         case 401:
           console.error('未授权访问:', data);
-          alert('登录已过期，请重新登录');
-          localStorage.removeItem('auth_token');
-          window.location.reload();
+          alert('Token无效或已过期，请检查Token设置');
           break;
 
         case 403:

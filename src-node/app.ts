@@ -8,6 +8,7 @@ import {
   UPLOADS_DIRNAME,
 } from "./utils/constants";
 import router from "./routes/image";
+import configRouter from "./routes/config";
 import configManager from "./config/index";
 
 const app = express();
@@ -46,6 +47,7 @@ if (process.env.NODE_ENV !== "development") {
 
 app.use("/uploads", express.static(path.resolve(CURRENT_DIR, UPLOADS_DIRNAME)));
 app.use("/api", router);
+app.use("/api", configRouter);
 
 app.listen(config.serverPort, () => {
   logger.info(`Server listening on port: ${config.serverPort}`);
