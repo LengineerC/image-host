@@ -3,15 +3,28 @@ import {imageApi} from './api';
 import { GetImagesResponseData } from './api';
 import Upload from './components/Upload';
 import ImageGrid from './components/ImageGrid';
-import Login from './components/Login';
 import './styles/main.scss';
-import { useAuth,AuthProvider } from './contexts/AuthContext';
-
 
 const AppContent: React.FC = () => {
-  const {isAuthenticated} = useAuth();
   const [images,setImages] = useState<GetImagesResponseData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState<string>('');
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('auth_token');
+    if (storedToken) {
+      setToken(storedToken);
+    }
+  }, []);
+
+  const handleTokenChange = (newToken: string) => {
+    setToken(newToken);
+    if (newToken) {
+      localStorage.setItem('auth_token', newToken);
+    } else {
+      localStorage.removeItem('auth_token');
+    }
+  };
 
   const fetchImages = async () => {
     try {
@@ -39,10 +52,6 @@ const AppContent: React.FC = () => {
     fetchImages();
   },[]);
 
-  if (!isAuthenticated) {
-    return <Login />;
-  }
-
   return (
     <div className="app-container">
       <header className="header">
@@ -60,6 +69,15 @@ const AppContent: React.FC = () => {
               </div>
             </div>
             <div className="header-actions">
+              <div className="token-input-group">
+                <input
+                  type="text"
+                  value={token}
+                  onChange={(e) => handleTokenChange(e.target.value)}
+                  placeholder="请输入Token"
+                  className="token-input"
+                />
+              </div>
               <div className="counter">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -97,14 +115,8 @@ const AppContent: React.FC = () => {
   )
 }
 
-
-
 const App: React.FC = () => {
-  return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
-  );
+  return <AppContent />;
 }
 
 export default App;
