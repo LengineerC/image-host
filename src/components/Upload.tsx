@@ -1,5 +1,6 @@
 import React,{useState,useRef,useEffect} from 'react';
 import {imageApi, ConfigData} from '../api';
+import { message } from 'antd';
 
 interface UploadProps {
     onUploadSuccess:() => void;
@@ -34,14 +35,14 @@ const Upload: React.FC<UploadProps> = ({onUploadSuccess}) => {
         if (files.length === 0) return;
 
         if (config && files.length > config.maxUploadCount) {
-            alert(`最多只能上传 ${config.maxUploadCount} 个文件`);
+            message.error(`最多只能上传 ${config.maxUploadCount} 个文件`);
             return;
         }
 
         if (config) {
             for (const file of files) {
                 if (file.size > config.fileSize) {
-                    alert(`文件 "${file.name}" 超过了大小限制（${formatFileSize(config.fileSize)}）`);
+                    message.error(`文件 "${file.name}" 超过了大小限制（${formatFileSize(config.fileSize)}）`);
                     return;
                 }
             }
@@ -56,7 +57,7 @@ const Upload: React.FC<UploadProps> = ({onUploadSuccess}) => {
         }
         } catch (error) {
             console.error('Upload failed:', error);
-            alert('上传失败，请重试');
+            message.error('上传失败，请重试');
         } finally {
             setUploading(false);
         }

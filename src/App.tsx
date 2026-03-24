@@ -1,12 +1,14 @@
-import React,{useState,useEffect} from 'react';
-import {imageApi} from './api';
+import React, { useState, useEffect } from 'react';
+// 1. 引入 antd 的组件
+import { message, Spin } from 'antd'; 
+import { imageApi } from './api';
 import { GetImagesResponseData } from './api';
 import Upload from './components/Upload';
 import ImageGrid from './components/ImageGrid';
 import './styles/main.scss';
 
 const AppContent: React.FC = () => {
-  const [images,setImages] = useState<GetImagesResponseData[]>([]);
+  const [images, setImages] = useState<GetImagesResponseData[]>([]);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState<string>('');
 
@@ -21,6 +23,7 @@ const AppContent: React.FC = () => {
     setToken(newToken);
     if (newToken) {
       localStorage.setItem('auth_token', newToken);
+      // 这里的提示可选，为了不打扰用户输入，通常不加，或者加个 debounced 提示
     } else {
       localStorage.removeItem('auth_token');
     }
@@ -33,24 +36,31 @@ const AppContent: React.FC = () => {
       setImages(data);
     } catch (error) {
       console.error('Failed to fetch images:', error);
+      // 2. 这里虽然拦截器可能报过错，但组件内加个提示更保险
+      message.error('获取图片列表失败');
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (paths: string[]) => {
+    const hide = message.loading('正在删除...', 0); // 3. 添加加载中状态
     try {
       await imageApi.deleteImages(paths);
+      message.success('删除成功'); // 4. 替换 alert 为 success
       await fetchImages();
     } catch (error) {
       console.error('Delete failed:', error);
-      alert('删除失败，请重试');
+      // 5. 替换 alert 为 error
+      message.error('删除失败，请重试');
+    } finally {
+      hide(); // 关闭加载提示
     }
   };
 
   useEffect(() => {
     fetchImages();
-  },[]);
+  }, []);
 
   return (
     <div className="app-container">
@@ -100,7 +110,8 @@ const AppContent: React.FC = () => {
 
         {loading ? (
           <div className="loading-state">
-            <div className="spinner"></div>
+            {/* 6. 使用 antd 的 Spin 替代手写 spinner */}
+            <Spin size="large" />
             <p>加载中...</p>
           </div>
         ) : (
