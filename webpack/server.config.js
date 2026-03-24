@@ -38,11 +38,6 @@ const serverConfig = {
       },
     ],
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-      Buffer: ['buffer', 'Buffer'],
-    }),
-  ],
 };
 
 module.exports = merge(baseConfig, serverConfig);

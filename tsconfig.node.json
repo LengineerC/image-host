@@ -20,5 +20,6 @@
     "webpack",
     "src",
     "logs"
-  ]
+  ],
+  "composite": true
 }

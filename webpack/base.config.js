@@ -23,6 +23,7 @@ const baseConfig = {
         use: [
           'style-loader',
           'css-loader',
+          'postcss-loader',
         ],
       },
       {
@@ -69,7 +70,10 @@ const baseConfig = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new NodePolyfillPlugin()
+    new NodePolyfillPlugin(),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    }),
   ],
 };
 

@@ -30,5 +30,6 @@
     "webpack",
     "src-node",
     "logs"
-  ]
+  ],
+  "composite": true
 }
